@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+    </head>
+    <body>
+        <div class="manzana">
+            <input class="botonPeaton1" type="button" id="peaton" value="Boton de Peaton - Semaforo 1">
+        </div>
+        <div class="semaforo">
+            <div class="caja">
+		<div class="circulo" id="rojo"></div>
+                <div class="circulo" id="amarillo"></div>
+                <div class="circulo" id="verde"></div>
+            </div>            
+        </div>
+        <div class="manzana"></div>
+        <br>
+        <div class="espacio"></div>          
+        <div class="semaforo">
+            <div class="caja">
+		<div class="circulo" id="rojo2"></div>
+                <div class="circulo" id="amarillo2"></div>
+                <div class="circulo" id="verde2"></div>
+            </div>             
+        </div>          
+        <br>
+
+        <div class="manzana"></div>
+        <div class="espacio2"></div>          
+        
+        <div class="manzana">
+            <input class="botonPeaton2" type="button" id="peaton2" value="Boton de Peaton - Semaforo 2">
+        </div>
+        <br>
+
+        <div class="controls">
+            <input type="button" id="empezar" value="Cambiar Manualmente"><br>                
+            <label>Tiempo:</label>
+            <div class="segundos">30</div>
+	    <label id="segundos"></label>
+            <div>
+                <label>Registro:</label>
+                <br>                
+                <label id="data"></label>
+            </div>
+        </div>
+ 	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>        
+        <script type="text/javascript">
+         $(document).ready(function(){
+               $("#peaton").click(
+                       function(){
+                           var dt = new Date();
+                           var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                           var fulldate =  'Boton Peaton Semaforo 1: '+ dt + '-' + time +'<br>';
+                           $(".segundos").html(60);
+                           $( "#data" ).append(fulldate);
+                           $("#amarillo").css("background","#ccc");
+                           $("#rojo").css("background","#cc0000");
+                           $("#verde").css("background","#ccc");
+                           $("#amarillo2").css("background","#ccc");
+                           $("#rojo2").css("background","#ccc");
+                           $("#verde2").css("background","#8fc800");                              
+                       });
+               $("#peaton2").click(
+                       function(){
+                           var dt = new Date();
+                           var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                           var fulldate =  'Boton Peaton Semaforo 2: '+ dt + '-' + time +'<br>';
+                           $(".segundos").html(60);
+                           $( "#data" ).append(fulldate);
+                           $("#amarillo").css("background","#ccc");
+                           $("#rojo").css("background","#ccc");
+                           $("#verde").css("background","#8fc800");
+                           $("#amarillo2").css("background","#ccc");
+                           $("#rojo2").css("background","#cc0000");
+                           $("#verde2").css("background","#ccc");                           
+                       });                
+               $("#empezar").toggle(
+               function(){
+                       $("#amarillo").css("background","#ccc");
+                       $("#rojo").css("background","#ccc");
+                       $("#verde").css("background","#8fc800");
+                       $("#amarillo2").css("background","#ccc");
+                       $("#rojo2").css("background","#cc0000");
+                       $("#verde2").css("background","#ccc");
+               },
+               function(){
+                       $("#verde").css("background","#ccc");
+                       $("#amarillo").css("background","#f1da36");
+                       $("#rojo").css("background","#ccc");
+                       $("#amarillo2").css("background","#ccc");
+                       $("#rojo2").css("background","#cc0000");
+                       $("#verde2").css("background","#ccc");         
+               },
+               function(){
+                       $("#verde").css("background","#ccc");
+                       $("#amarillo").css("background","#ccc");
+                       $("#rojo").css("background","#cc0000");
+                       $("#amarillo2").css("background","#ccc");
+                       $("#rojo2").css("background","#ccc");
+                       $("#verde2").css("background","#8fc800");                
+               },        
+               function(){
+                       $("#verde").css("background","#ccc");
+                       $("#amarillo").css("background","#ccc");
+                       $("#rojo").css("background","#cc0000");
+                       $("#amarillo2").css("background","#f1da36");
+                       $("#rojo2").css("background","#ccc");
+                       $("#verde2").css("background","#ccc");                
+               });
+               $("#empezar").trigger("click");
+               statusSemaforo1 = "verde";
+               statusSemaforo2 = "rojo";
+
+               setInterval(function(){
+                       segundos =  parseInt($(".segundos").html());
+                       segundos--;
+                       if (segundos==5 && statusSemaforo2=="verde") {
+                               statusSemaforo2 = "amarillo";                       
+                               $("#empezar").trigger("click");
+                       } 
+                       else if (segundos==5 && statusSemaforo1=="verde") {
+                               statusSemaforo1 = "amarillo";
+                               $("#empezar").trigger("click");
+                       } else {
+                               if (segundos==0 && statusSemaforo1=="amarillo") {
+                                       statusSemaforo1 = "rojo";
+                                       statusSemaforo2 = "verde";
+                                       $("#empezar").trigger("click");
+                                       segundos = 30;
+                               } else {
+                                       if (segundos==0 && statusSemaforo1=="rojo") {
+                                           statusSemaforo1 = "verde";
+                                           statusSemaforo2 = "rojo";
+                                           $("#empezar").trigger("click");
+                                           segundos = 30;
+                                       }
+                               }
+                       }
+                       $(".segundos").html(segundos);
+
+               },1000)
+               });
+        </script>
+    </body>
+</html>
